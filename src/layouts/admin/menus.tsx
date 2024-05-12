@@ -14,7 +14,6 @@ function App() {
     {
       key: "sub1",
       label: "Navigation One",
-      icon: <IonButtons />,
       children: [
         {
           key: "g1",
@@ -51,7 +50,6 @@ function App() {
     {
       key: "sub2",
       label: "Navigation Two",
-      icon: <IonContent />,
       children: [
         {
           key: "5",
@@ -78,12 +76,8 @@ function App() {
       ],
     },
     {
-      type: "divider",
-    },
-    {
       key: "sub4",
       label: "Navigation Three",
-      icon: <IonHeader />,
       children: [
         {
           key: "9",
