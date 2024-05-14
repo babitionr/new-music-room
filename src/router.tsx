@@ -1,6 +1,5 @@
 import React, { Suspense, useEffect } from "react";
 import { HashRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
-import { routerLinks } from "./router-links";
 
 const pages = [
   // {
@@ -13,6 +12,12 @@ const pages = [
   //     ]
   // }
   {
-    // layout: React.lazy(() => import('')) 
+    layout: React.lazy(() => import('@layouts/admin')),
+    isPublic: false,
+    child: [
+      {
+        
+      }
+    ]
   },
 ];

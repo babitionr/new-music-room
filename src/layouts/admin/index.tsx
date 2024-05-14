@@ -9,10 +9,10 @@ const Layout = ({ children }: PropsWithChildren) => {
         <h1>Dashboard</h1>
       </div>
       <div className="flex items-center gap-5 absolute right-6">
-        <Dropdown>
-          
-        </Dropdown>
+        <Dropdown>{children}</Dropdown>
       </div>
     </header>
   );
 };
+
+export default Layout;
