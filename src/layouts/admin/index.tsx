@@ -9,9 +9,21 @@ const Layout = ({ children }: PropsWithChildren) => {
         <h1>Dashboard</h1>
       </div>
       <div className="flex items-center gap-5 absolute right-6">
-        <Dropdown>{children}</Dropdown>
+        <Dropdown></Dropdown>
       </div>
     </header>
+  );
+  return (
+    <main>
+      <div className="h-16 relative bg-black">
+        <div className="absolute top-0 left-0 right-0">
+          <Header
+          // isCollapsed={isCollapsed}
+          // isDesktop={isDesktop}
+          />
+        </div>
+      </div>
+    </main>
   );
 };
 

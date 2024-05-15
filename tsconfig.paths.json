@@ -5,7 +5,7 @@
       // "@core/*": [
       //   "src/core/*"
       // ],
-      "@layouts/*": ["src/layouts/*"],
+      "@layouts/*": ["./src/layouts/*"],
       // "@pages/*": [
       //   "src/pages/*"
       // ],
