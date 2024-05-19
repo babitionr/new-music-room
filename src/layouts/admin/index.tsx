@@ -1,5 +1,5 @@
-import { Dropdown } from "antd";
 import React, { PropsWithChildren, useEffect, useState, Fragment } from "react";
+import { Dropdown } from "antd";
 
 const Layout = ({ children }: PropsWithChildren) => {
   const Header = () => (
@@ -21,6 +21,7 @@ const Layout = ({ children }: PropsWithChildren) => {
           // isCollapsed={isCollapsed}
           // isDesktop={isDesktop}
           />
+          {children}
         </div>
       </div>
     </main>

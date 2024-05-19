@@ -8,4 +8,26 @@ export const routerLinks = (name: string, type?: string) => {
   } = {
     Dashboard: "/dashboard",
   };
+
+  const apis: {
+    [selector: string]: string;
+  } = {
+    Auth: '/auth',
+    CodeType: '/code-type',
+    Code: '/code',
+    UserRole: '/user-role',
+    User: '/user',
+    Data: '/data',
+    DataType: '/data-type',
+    Post: '/post',
+    Parameter: '/parameter',
+    PostType: '/post-type',
+  }; // 💬 generate api to here
+
+  switch (type) {
+    case 'api':
+      return apis[name];
+    default:
+      return array[name];
+  }
 };

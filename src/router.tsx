@@ -1,6 +1,7 @@
 import React, { Suspense, useEffect } from "react";
 import { HashRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { routerLinks } from "./router-links";
+import { Spin } from "antd";
 
 const pages = [
   // {
@@ -20,6 +21,11 @@ const pages = [
         path: "/",
         component: routerLinks("Dashboard"),
       },
+      {
+        path: routerLinks("Dashboard"),
+        component: React.lazy(() => import("@pages/dashboard")),
+        title: "Dashboard",
+      },
     ],
   },
 ];
@@ -28,18 +34,19 @@ const Layout = ({
   layout: Layout,
   isPublic = false,
 }: {
-  layout: React.LazyExoticComponent<({ children }: { children?: React.ReactNode }) => JSX.Element>;
+  layout: React.LazyExoticComponent<
+    ({ children }: { children?: React.ReactNode }) => JSX.Element
+  >;
   isPublic: boolean;
 }) => {
   // if (isPublic || !!localStorage.getItem(keyToken))
-    return (
-      <Layout>
-        <Outlet />
-      </Layout>
-    );
+  return (
+    <Layout>
+      <Outlet />
+    </Layout>
+  );
   // return <Navigate to={`/${lang}${routerLinks('Login')}`} />;
 };
-
 
 const Page = ({
   title = "",
@@ -84,9 +91,7 @@ const Pages = () => {
                         {typeof component === "string" ? (
                           <Navigate to={"/" + lang + component} />
                         ) : (
-                          <Page title={title} 
-                          component={component}
-                           />
+                          <Page title={title} component={component} />
                         )}
                       </Suspense>
                     }
