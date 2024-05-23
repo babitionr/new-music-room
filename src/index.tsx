@@ -64,7 +64,7 @@ document.addEventListener(
             </div>
           }
         >
-          <Provider store={}>
+          <Provider store={"s"}>
             <Context />
           </Provider>
         </Suspense>
