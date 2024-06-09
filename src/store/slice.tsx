@@ -1,5 +1,9 @@
+import { Responses } from "@models";
+import { Action } from "./action";
+import { PayloadAction } from "@reduxjs/toolkit";
+
 export class Slice<T> {
-//   name: string;
+  //   name: string;
   initialState: State<T>;
   reducers: any;
   extraReducers: (builder: any) => void;
@@ -8,51 +12,37 @@ export class Slice<T> {
     data: undefined,
   };
   constructor(
-    // action: Action<T>,
+    action: Action<T>,
     initialState: State<T> = {},
     extraReducers?: (builder: any) => void
   ) {
     // this.name = action.name
-    this.initialState = {}
-    this.extraReducers = (builder:any) => {
-        builder
-            .addCase(f)
-    }
+    this.initialState = {};
+    this.extraReducers = (builder: any) => {
+      builder
+      .addCase(action.getHome.pending, (state: State<T>, action: PayloadAction<State<T>>) => {
+        Object.keys(action.payload).forEach((key) => {
+          state[key] = action.payload[key as keyof State<T>];
+        });
+        state.status = "idle"
+      })
+      .addCase(action.getHome.fulfilled, (state: State<T>, action: PayloadAction<Responses<T[]>>) => {
+        if (action.payload.data) {  
+            state.result = action.payload;
+            state.status = "getHome.fulfilled"
+        } else state.status = 'idle'
+        state.isLoading = false;
+      })
+      .addCase(action.getHome.rejected, (state: State) => {
+        state.status = "getHome.rejected"
+        state.isLoading = false;
+      });
+    };
   }
 }
 
 export interface State<T = object> {
   [selector: string]: any;
   result?: Responses<T[]>;
-}
-
-export class Responses<T> {
-  constructor(
-    public statusCode?: 200 | 201 | 500 | 404,
-    public message?: string,
-    public data?: T,
-    public count?: number
-  ) {}
-}
-
-export class CommonEntity {
-  constructor(
-    public id?: string,
-    public created_at?: string,
-    public updated_at?: string,
-    public isDeleted?: string,
-    public isDisabled?: string
-  ) {}
-}
-
-export class PaginationQuery<T = object> {
-  constructor(
-    public perPage?: number,
-    public page?: number,
-    public filter?: string | T,
-    public sorts?: string | T,
-    public extend?: string | T,
-    public skip?: string | T,
-    public fullTextSearch?: string
-  ) {}
+  isLoading?: boolean
 }
