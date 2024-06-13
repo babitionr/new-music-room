@@ -5,7 +5,9 @@ import "./assets/styles/index.less";
 import { ConfigProvider } from "antd";
 import Router from "./router";
 import { Provider } from "react-redux";
+import { setupStore } from "@store";
 
+const store = setupStore();
 let container: HTMLElement;
 const Styling = lazy(() => import("./utils/init/styling"));
 
@@ -64,7 +66,7 @@ document.addEventListener(
             </div>
           }
         >
-          <Provider store={"s"}>
+          <Provider store={store}>
             <Context />
           </Provider>
         </Suspense>

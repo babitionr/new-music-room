@@ -2,19 +2,19 @@ import { AsyncThunk, createAsyncThunk } from "@reduxjs/toolkit";
 import { routerLinks } from "src/router-links";
 import { API } from "src/utils/api";
 import { State } from "./slice";
-import { PaginationQuery } from "@models";
+import { PaginationQuery, Responses } from "@models";
 
 export class Action<T> {
   public name: string;
   // public set: string;
-  public getHome: AsyncThunk<State<T[]>, PaginationQuery<T>, object>;
+  public getHome: AsyncThunk<Responses<T[]>, PaginationQuery<T>, object>;
   constructor(name: string) {
     this.name = name;
     this.getHome = createAsyncThunk(
       name + "/home",
       async (params: PaginationQuery<T>) =>
         await API.getHome(`${routerLinks(name, "api")}`, params)
-    );  
+    );
   }
 
   // getSong

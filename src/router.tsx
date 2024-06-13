@@ -69,7 +69,7 @@ const Pages = () => {
   return (
     <HashRouter>
       <Routes>
-        <Route path={"/:lang"}>
+        <Route>
           {pages.map(({ layout, isPublic, child }, index) => (
             <Route
               key={index}
@@ -79,7 +79,7 @@ const Pages = () => {
                 ({ path = "", title = "", component }, subIndex: number) => (
                   <Route
                     key={path + subIndex}
-                    path={"/:lang" + path}
+                    path={path}
                     element={
                       <Suspense
                         fallback={
@@ -89,7 +89,7 @@ const Pages = () => {
                         }
                       >
                         {typeof component === "string" ? (
-                          <Navigate to={"/" + lang + component} />
+                          <Navigate to={component} />
                         ) : (
                           <Page title={title} component={component} />
                         )}
@@ -101,7 +101,7 @@ const Pages = () => {
             </Route>
           ))}
         </Route>
-        <Route path="*" element={<Navigate to={"/" + lang + "/"} />} />
+        <Route path="*" />
       </Routes>
     </HashRouter>
   );

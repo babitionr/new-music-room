@@ -8,9 +8,9 @@ const Layout = ({ children }: PropsWithChildren) => {
         {/* Title */}
         <h1>Dashboard</h1>
       </div>
-      <div className="flex items-center gap-5 absolute right-6">
+      {/* <div className="flex items-center gap-5 absolute right-6">
         <Dropdown></Dropdown>
-      </div>
+      </div> */}
     </header>
   );
   return (
