@@ -14,6 +14,7 @@
     "@ionic/react": "^8.2.2",
     "@reduxjs/toolkit": "^2.2.5",
     "antd": "^5.18.1",
+    "classnames": "^2.5.1",
     "less": "^4.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -24,6 +25,7 @@
     "vite-plugin-svgr": "^4.2.0"
   },
   "devDependencies": {
+    "@types/node": "^20.14.8",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.13.0",

@@ -1,19 +1,10 @@
 import { DatePicker, Menu } from "antd";
+import { Dashboard, Home } from "@svgs";
 
-import {
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonMenu,
-  IonMenuButton,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
 const Layout: IMenu[] = [
   {
-    icon: <IonTitle className="h-6 w-6" />,
-    name: "Dashboard",
+    icon: <Home className="h-6 w-6" />,
+    name: "Home",
   },
 ];
 

@@ -19,12 +19,12 @@ const pages = [
     child: [
       {
         path: "/",
-        component: routerLinks("Dashboard"),
+        component: routerLinks("Home"),
       },
       {
-        path: routerLinks("Dashboard"),
-        component: React.lazy(() => import("@pages/dashboard")),
-        title: "Dashboard",
+        path: routerLinks("Home"),
+        component: React.lazy(() => import("@pages/home")),
+        title: "Home",
       },
     ],
   },

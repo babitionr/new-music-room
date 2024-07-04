@@ -18,7 +18,7 @@ export { setupStore, useAppDispatch, useTypedSelector, Action, Slice };
 export type { State };
 
 export * from "./home";
-import { dataSlice } from "./";
+import { homeSlice } from "./";
 const rootReducer = combineReducers({
-  [dataSlice.name]: dataSlice.reducer,
+  [homeSlice.name]: homeSlice.reducer,
 });

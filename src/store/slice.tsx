@@ -50,5 +50,7 @@ export class Slice<T> {
 export interface State<T = object> {
   [selector: string]: any;
   result?: Responses<T[]>;
+  data?: T;
   isLoading?: boolean;
+  queryParams?: string;
 }
