@@ -8,10 +8,12 @@ const name = "Home";
 const action = new Action<Home>(name);
 export const homeSlice = createSlice(new Slice<Home>(action));
 export const HomeFacade = () => {
-  const dispatch = useAppDispatch;
+  const dispatch = useAppDispatch();
   return {
     ...useTypedSelector((state) => state[action.name] as State<Home>),
-    getHome: (params: PaginationQuery<Home>) => dispatch(),
+    getHome: (params: PaginationQuery<Home>) =>
+      dispatch(action.getHome(params)),
+    getSong: ({ id }: { id: string }) => dispatch(action.getSong({ id })),
   };
 };
 

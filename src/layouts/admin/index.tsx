@@ -10,7 +10,7 @@ const Layout = ({ children }: PropsWithChildren) => {
   const Header = () => (
     <header
       className={classNames(
-        "bg-white w-full h-16 transition-all duration-300 ease-in-out top-0 block sm:bg-gray-100 z-20 fixed lg:relative"
+        "w-full h-16 transition-all duration-300 ease-in-out top-0 block sm:bg-gradient-to-r from-slateBlue-500 via-lightGray-500 to-midnight-500  z-20 fixed lg:relative"
       )}
     >
       <div className="flex items-center justify-end sm:justify-between px-5 h-16">
@@ -25,76 +25,7 @@ const Layout = ({ children }: PropsWithChildren) => {
         </div>
 
         <div className="flex items-center gap-5 absolute right-6">
-          {/* <Dropdown
-            trigger={['click']}
-            menu={{
-              items: [
-                {
-                  key: '0',
-                  className: 'hover:!bg-white !border-b-slate-300 border-b !rounded-none',
-                  label: (
-                    <div className="flex">
-                      <Avatar src={user?.avatar || ''} size={8} />
-                      <div className="text-left leading-none mr-3 block pl-2">
-                        <div className="font-semibold text-black text-sm leading-snug mb-0.5">{user?.name}</div>
-                        <div className="text-gray-500 text-[10px]">{user?.email}</div>
-                      </div>
-                    </div>
-                  ),
-                },
-                {
-                  key: '1',
-                  className: 'h-11',
-                  label: (
-                    <div
-                      className="flex"
-                      onClick={() => navigate(`/${lang}${routerLinks('MyProfile')}?tab=1`, { replace: true })}
-                    >
-                      <div className="flex items-center">
-                        <User className="w-6 h-6 pr-2 text-black" />
-                      </div>
-                      <div>{t('routes.admin.Layout.My Profile')}</div>
-                    </div>
-                  ),
-                },
-                {
-                  key: '2',
-                  className: 'h-11 !border-b-slate-300 border-b !rounded-none',
-                  label: (
-                    <div
-                      className="flex"
-                      onClick={() => navigate(`/${lang}${routerLinks('MyProfile')}?tab=2`, { replace: true })}
-                    >
-                      <div className="flex items-center">
-                        <Key className="w-6 h-6 pr-2 text-black" />
-                      </div>
-                      <div>{t('routes.admin.Layout.Change Password')}</div>
-                    </div>
-                  ),
-                },
-                {
-                  key: '3',
-                  className: 'h-11',
-                  label: (
-                    <div
-                      className="flex"
-                      onClick={() => navigate(`/${lang}${routerLinks('Login')}`, { replace: true })}
-                    >
-                      <div className="flex items-center">
-                        <Out className="w-6 h-6 pr-2 text-black" />
-                      </div>
-                      <div>{t('routes.admin.Layout.Sign out')}</div>
-                    </div>
-                  ),
-                },
-              ],
-            }}
-            placement="bottomRight"
-          >
-            <section className="flex items-center !rounded-full" id={'dropdown-profile'}>
-              <Avatar src={user?.avatar || ''} size={10} />
-            </section>
-          </Dropdown> */}
+          
         </div>
       </div>
     </header>

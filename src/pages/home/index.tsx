@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 const Page = () => {
   const homeFacade = HomeFacade();
   useEffect(() => {
-    homeFacade.getHome;
+    homeFacade.getSong({ id: "Z78DOBDE" });
   }, []);
-  console.log(homeFacade.result);
+  console.log(homeFacade);
   return (
     <>
       <div className="absolute left-0 right-0">

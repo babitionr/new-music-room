@@ -8,12 +8,20 @@ export class Action<T> {
   public name: string;
   // public set: string;
   public getHome: AsyncThunk<Responses<T[]>, PaginationQuery<T>, object>;
+  public getSong: AsyncThunk<{ data: T | undefined }, { id: string }, object>;
   constructor(name: string) {
     this.name = name;
     this.getHome = createAsyncThunk(
       name + "/home",
       async (params: PaginationQuery<T>) =>
         await API.getHome(`${routerLinks(name, "api")}`, params)
+    );
+    this.getSong = createAsyncThunk(
+      name + "/getsong",
+      async ({ id }: { id: string }) => {
+        const { data } = await API.getSong<T>(`getsong/${id}`);
+        return { data };
+      }
     );
   }
 

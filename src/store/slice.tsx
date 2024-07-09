@@ -42,6 +42,32 @@ export class Slice<T> {
         .addCase(action.getHome.rejected, (state: State) => {
           state.status = "getHome.rejected";
           state.isLoading = false;
+        })
+
+        .addCase(action.getSong.pending, (state: State<T>) => {
+          state.isLoading = true;
+          state.status = "getSong.pending";
+        })
+        .addCase(
+          action.getSong.fulfilled,
+          (
+            state: State<T>,
+            action: PayloadAction<{ data: T; keyState: keyof State<T> }>
+          ) => {
+            if (action.payload) {
+              const { data, keyState } = action.payload;
+              if (JSON.stringify(state.data) !== JSON.stringify(data))
+                state.data = data;
+              // @ts-ignore
+              state[keyState] = true;
+              state.status = "getSong.fulfilled";
+            } else state.status = "getSong.idle";
+            state.isLoading = false;
+          }
+        )
+        .addCase(action.getSong.rejected, (state: State) => {
+          state.status = "getSong.rejected";
+          state.isLoading = false;
         });
     };
   }
