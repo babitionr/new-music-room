@@ -1,8 +1,8 @@
-import { Responses } from "@models";
+import { CommonEntity, EStatusState, Responses } from "@models";
 import { Action } from "./action";
 import { PayloadAction } from "@reduxjs/toolkit";
 
-export class Slice<T> {
+export class Slice<T extends CommonEntity> {
   name: string;
   initialState: State<T>;
   reducers: any;
@@ -10,6 +10,11 @@ export class Slice<T> {
   defaultState: State<T> = {
     result: {},
     data: undefined,
+    isLoading: false,
+    status: "idle",
+    queryParams: "",
+    keepUnusedDataFor: 60,
+    time: 0,
   };
   constructor(
     action: Action<T>,
@@ -17,58 +22,51 @@ export class Slice<T> {
     extraReducers?: (builder: any) => void
   ) {
     this.name = action.name;
-    this.initialState = {};
+    this.initialState = { ...this.defaultState, ...initialState };
+    this.reducers = {};
     this.extraReducers = (builder: any) => {
       builder
-        .addCase(
-          action.getHome.pending,
-          (state: State<T>, action: PayloadAction<State<T>>) => {
-            Object.keys(action.payload).forEach((key) => {
-              state[key] = action.payload[key as keyof State<T>];
-            });
-            state.status = "idle";
-          }
-        )
-        .addCase(
-          action.getHome.fulfilled,
-          (state: State<T>, action: PayloadAction<Responses<T[]>>) => {
-            if (action.payload.data) {
-              state.result = action.payload;
-              state.status = "getHome.fulfilled";
-            } else state.status = "idle";
-            state.isLoading = false;
-          }
-        )
-        .addCase(action.getHome.rejected, (state: State) => {
-          state.status = "getHome.rejected";
-          state.isLoading = false;
-        })
-
-        .addCase(action.getSong.pending, (state: State<T>) => {
-          state.isLoading = true;
-          state.status = "getSong.pending";
-        })
-        .addCase(
-          action.getSong.fulfilled,
-          (
-            state: State<T>,
-            action: PayloadAction<{ data: T; keyState: keyof State<T> }>
-          ) => {
-            if (action.payload) {
-              const { data, keyState } = action.payload;
-              if (JSON.stringify(state.data) !== JSON.stringify(data))
-                state.data = data;
-              // @ts-ignore
-              state[keyState] = true;
-              state.status = "getSong.fulfilled";
-            } else state.status = "getSong.idle";
-            state.isLoading = false;
-          }
-        )
-        .addCase(action.getSong.rejected, (state: State) => {
-          state.status = "getSong.rejected";
-          state.isLoading = false;
-        });
+        // .addCase(
+        //   action.get.pending,
+        //   (
+        //     state: State<T>,
+        //     action: PayloadAction<
+        //       undefined,
+        //       string,
+        //       { arg: T; requestId: string; requestStatus: "pending" }
+        //     >
+        //   ) => {
+        //     state.time =
+        //       new Date().getTime() + (state.keepUnusedDataFor || 60) * 1000;
+        //     state.queryParams = JSON.stringify(action.meta.arg);
+        //     state.isLoading = true;
+        //     state.status = EStatusState.getPending;
+        //   }
+        // )
+        // .addCase(
+        //   action.get.fulfilled,
+        //   (state: State<T>, action: PayloadAction<Responses<T[]>>) => {
+        //     console.log("Action fulfilled");
+        //     if (action.payload.data) {
+        //       console.log("Payload has data");
+        //       state.result = action.payload;
+        //       state.status = EStatusState.getFulfilled;
+        //     } else {
+        //       console.log("Payload has no data");
+        //       state.status = EStatusState.idle;
+        //     }
+        //     state.isLoading = false;
+        //     console.log(
+        //       "State after fulfillment:",
+        //       JSON.parse(JSON.stringify(state))
+        //     );
+        //   }
+        // )
+        // .addCase(action.get.rejected, (state: State) => {
+        //   state.status = EStatusState.getRejected;
+        //   state.isLoading = false;
+        // });
+      extraReducers && extraReducers(builder);
     };
   }
 }
@@ -76,7 +74,7 @@ export class Slice<T> {
 export interface State<T = object> {
   [selector: string]: any;
   result?: Responses<T[]>;
-  data?: T;
+  data?: {};
   isLoading?: boolean;
   queryParams?: string;
 }

@@ -1,4 +1,4 @@
-import { linkApi } from "@utils";
+import { keyToken, linkApi } from "@utils";
 import { Responses } from "@models";
 
 export const API = {
@@ -9,6 +9,9 @@ export const API = {
       credentials: "same-origin",
       headers: {
         "Content-Type": "application/json",
+        authorization: localStorage.getItem(keyToken)
+          ? "Bearer " + localStorage.getItem(keyToken)
+          : "",
       },
       redirect: "follow",
       referrerPolicy: "no-referrer",
@@ -21,35 +24,95 @@ export const API = {
   ) => {
     config.headers = { ...config.headers, ...headers };
 
-    const queryParams = new URLSearchParams(params).toString();
-    const fullUrl = `${linkApi}${url}${queryParams ? `?${queryParams}` : ""}`;
+    const linkParam = Object.keys(params)
+      .map(
+        (key) =>
+          key +
+          "=" +
+          encodeURIComponent(
+            typeof params[key] === "object"
+              ? JSON.stringify(params[key])
+              : params[key]
+          )
+      )
+      .join("&");
+    const response = await fetch(
+      linkApi + url + (linkParam && "?" + linkParam),
+      config
+    );
 
-    try {
-      console.log("Sending request to:", fullUrl);
-      const response = await fetch(fullUrl, config);
-      console.log("Response status:", response.status);
+    const res: Responses<T> = await response.json();
 
-      const res: Responses<T> = await response.json();
-      if (response.ok) return res;
-
-      console.error(
-        "Response error:",
-        response.status,
-        response.statusText,
-        res
+    if (response.ok) return res;
+    if (response.ok) {
+      const response = await fetch(
+        linkApi + url + (linkParam && "?" + linkParam),
+        config
       );
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
-    } catch (error) {
-      console.error("Fetch error:", error);
-      throw error;
+      return (await response.json()) as Responses<T>;
     }
+
+    throw {};
   },
-  getHome: <T,>(url: string, params = {}, headers?: RequestInit["headers"]) =>
-    API.responsible<T>(url, params, { ...API.init(), method: "GET" }, headers),
-  getSong: <T,>(url: string, params = {}, headers?: RequestInit["headers"]) =>
+  get: <T,>(url: string, params = {}, headers?: RequestInit["headers"]) =>
     API.responsible<T>(url, params, { ...API.init(), method: "GET" }, headers),
 };
 
-API.getHome("home")
-  .then((data) => console.log("Received data:", data))
-  .catch((error) => console.error("Error in getHome:", error));
+export const APIMP3 = {
+  init: () =>
+    ({
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: localStorage.getItem(keyToken)
+          ? "Bearer " + localStorage.getItem(keyToken)
+          : "",
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+    } as RequestInit),
+  responsible: async <T,>(
+    url: string,
+    params: { [key: string]: string } = {},
+    config: RequestInit,
+    headers: RequestInit["headers"] = {}
+  ) => {
+    config.headers = { ...config.headers, ...headers };
+
+    const linkParam = Object.keys(params)
+      .map(
+        (key) =>
+          key +
+          "=" +
+          encodeURIComponent(
+            typeof params[key] === "object"
+              ? JSON.stringify(params[key])
+              : params[key]
+          )
+      )
+      .join("&");
+    const response = await fetch(url + (linkParam && "?" + linkParam), config);
+
+    const res: Responses<T> = await response.json();
+
+    if (response.ok) return res;
+    if (response.ok) {
+      const response = await fetch(
+        url + (linkParam && "?" + linkParam),
+        config
+      );
+      return (await response.json()) as Responses<T>;
+    }
+
+    throw {};
+  },
+  get: <T,>(url: string, params = {}, headers?: RequestInit["headers"]) =>
+    APIMP3.responsible<T>(
+      url,
+      params,
+      { ...APIMP3.init(), method: "GET" },
+      headers
+    ),
+};
